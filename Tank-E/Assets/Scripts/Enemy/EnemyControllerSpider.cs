@@ -22,7 +22,7 @@ public class EnemyControllerSpider : MonoBehaviour
     public Animator animLegs;
     public bool nonAnimatorWeapon;
     public Animator[] animWeapons;
-    public GameObject[] shootVFX;
+
     [Header("Sounds")]
     AudioSource audioSource;
     public AudioClip shootSFX;
@@ -33,10 +33,22 @@ public class EnemyControllerSpider : MonoBehaviour
     [Header("Turret")]
     public GameObject upperBody;
     public Transform sight;
-    [Header("Visual Status")]
+    [Header("Status")]
     public Light lightStatus;
+    public bool isDead;
+    public ExploteArea exploteArea;
+    [Header("Visual FX")]
+    public GameObject explosionVFX;
+    public Mesh newMeshVFX;
+    public Rigidbody[] rigParts;
+    public BoxCollider[] colParts;
+    public GameObject[] invisibleParts;
+    public GameObject[] shootVFX;
+    public ShakeCamera shake;
+
 
     //Variables Privadas
+
     NavMeshAgent navMesh;
     RaycastHit hit;
     float dist;
@@ -52,8 +64,12 @@ public class EnemyControllerSpider : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player").transform;
         navMesh = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
-        lightStatus.color = Color.green;
-        originPosition=new Vector3(transform.position.x,transform.position.y,transform.position.z);
+        shake = FindObjectOfType<ShakeCamera>();
+        foreach (GameObject go in invisibleParts) go.SetActive(false);//desactiva trozos invisibles
+        foreach (Rigidbody rb in rigParts) rb.isKinematic = true;//kinematicos los rb
+        foreach (BoxCollider bc in colParts) bc.enabled = false;// desactivados los boxcolliders
+        lightStatus.color = Color.green;//color status
+        originPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);//orienta la torreta
 
 
 
@@ -61,18 +77,30 @@ public class EnemyControllerSpider : MonoBehaviour
 
     void Update()
     {
-        if (isActive)//si se encuentra activada la unidad
+        if (isActive && isDead == false)//si se encuentra activada la unidad
         {
             animLegs.SetBool("Active", true);
-            lightStatus.intensity=3;
+            lightStatus.intensity = 3;
             FindTarget();//Busca al Objetivo
             if (canAttack) Attack();//Listo para atacar si puede
         }
-        else
+
+        if (isActive == false)// si no se encuentra activada
         {
             animLegs.SetBool("Active", false);
-            lightStatus.intensity=0;
+            lightStatus.intensity = 0;
+        }
 
+        if (isDead == true)//si esta muerta
+        {
+            isActive = false;//desactiva el robot
+            shake.timeToShake=1;// establece tiempo de vibracion de la camara
+            shake.shake=true;// vibra la camara
+            explosionVFX.SetActive(true);//activa particulas
+            foreach (GameObject go in invisibleParts) go.SetActive(true);//activa trozos invisibles
+            foreach (Rigidbody rb in rigParts) rb.isKinematic = false;//dejan de ser kinematic las partes
+            foreach (BoxCollider bc in colParts) bc.enabled = true;//los colliders se activan
+            exploteArea.exploteNow = true;//explota
         }
 
     }
@@ -100,10 +128,10 @@ public class EnemyControllerSpider : MonoBehaviour
                 isLockedSound = true;
                 lightStatus.color = Color.green;
             }
-            if(isAPatrol==false)//si no patrulla
+            if (isAPatrol == false)//si no patrulla
             {
                 navMesh.SetDestination(originPosition);//vuelve al origen
-                if(navMesh.velocity.magnitude<=0)animLegs.SetFloat("Mov",0);//vuelve a idle
+                if (navMesh.velocity.magnitude <= 0) animLegs.SetFloat("Mov", 0);//vuelve a idle
             }
 
 
@@ -113,7 +141,7 @@ public class EnemyControllerSpider : MonoBehaviour
 
     void MoveTowards()
     {
-        if(isActive==true) upperBody.transform.LookAt(target);//rota la cabeza hacia el target si esta activada la unidad
+        if (isActive == true) upperBody.transform.LookAt(target);//rota la cabeza hacia el target si esta activada la unidad
         navMesh.SetDestination(target.transform.position);//se mueve al objetivo
         animLegs.SetFloat("Mov", navMesh.velocity.magnitude);//animacion de idle a walk
     }
@@ -149,7 +177,7 @@ public class EnemyControllerSpider : MonoBehaviour
     IEnumerator FireNow()
     {
         canShoot = false;//no puede seguir disparando
-        if(nonAnimatorWeapon==false)foreach (Animator shootAnim in animWeapons) { shootAnim.SetTrigger("Shoot"); }//da play a todos los animators de las armas
+        if (nonAnimatorWeapon == false) foreach (Animator shootAnim in animWeapons) { shootAnim.SetTrigger("Shoot"); }//da play a todos los animators de las armas
         foreach (GameObject vfx in shootVFX) { vfx.SetActive(true); }//activa las particulas del disparo
         audioSource.pitch = (Random.Range(0.8f, 1.2f));//el audio cambia levemente el tono
         audioSource.PlayOneShot(shootSFX);//emite un sonido de disparo
@@ -158,7 +186,7 @@ public class EnemyControllerSpider : MonoBehaviour
         yield return new WaitForSeconds(fireRate);//espera los segundos de la variable
 
 
-        if(nonReload==false)audioSource.PlayOneShot(reloadSFX);//emite un sonido de recarga
+        if (nonReload == false) audioSource.PlayOneShot(reloadSFX);//emite un sonido de recarga
         canShoot = true;//ahora puede disparar
         foreach (GameObject vfx in shootVFX) { vfx.SetActive(false); }//desactiva las particulas del disparo
 
