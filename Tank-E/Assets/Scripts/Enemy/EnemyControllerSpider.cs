@@ -39,7 +39,6 @@ public class EnemyControllerSpider : MonoBehaviour
     public ExploteArea exploteArea;
     [Header("Visual FX")]
     public GameObject explosionVFX;
-    public Mesh newMeshVFX;
     public Rigidbody[] rigParts;
     public BoxCollider[] colParts;
     public GameObject[] invisibleParts;
@@ -48,7 +47,7 @@ public class EnemyControllerSpider : MonoBehaviour
 
 
     //Variables Privadas
-
+    Disappear disappear;
     NavMeshAgent navMesh;
     RaycastHit hit;
     float dist;
@@ -62,6 +61,7 @@ public class EnemyControllerSpider : MonoBehaviour
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        disappear= GetComponent<Disappear>();
         navMesh = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
         shake = FindObjectOfType<ShakeCamera>();
@@ -95,6 +95,7 @@ public class EnemyControllerSpider : MonoBehaviour
 
         if (isDead == true)//si esta muerta
         {
+            disappear.disappearNow=true;//activar desaparecer
             isActive = false;//desactiva el robot
             shake.timeToShake=1;// establece tiempo de vibracion de la camara
             shake.shake=true;// vibra la camara
