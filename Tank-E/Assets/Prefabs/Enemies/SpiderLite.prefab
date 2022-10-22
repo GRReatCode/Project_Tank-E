@@ -1935,6 +1935,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2649040691713759356}
   - component: {fileID: 2649040691722827676}
+  - component: {fileID: 35930441}
+  - component: {fileID: 35930440}
   m_Layer: 0
   m_Name: Legs_Spider_Lt
   m_TagString: Untagged
@@ -1979,6 +1981,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!54 &35930441
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2649040691713328220}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &35930440
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2649040691713328220}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.5577142, y: 0.93451095, z: 3.659443}
+  m_Center: {x: 0.06289542, y: 0.53482795, z: -0.30553952}
 --- !u!1 &2649040691713328222
 GameObject:
   m_ObjectHideFlags: 0
@@ -2225,6 +2256,7 @@ GameObject:
   - component: {fileID: 2700548310824294638}
   - component: {fileID: 2700548310824294639}
   - component: {fileID: 2700548310824294636}
+  - component: {fileID: 840990780}
   m_Layer: 0
   m_Name: SpiderLite
   m_TagString: Untagged
@@ -2284,6 +2316,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc209c4e47aa2e44a90126320c4bbcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventToStart:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToDeath:
+    m_PersistentCalls:
+      m_Calls: []
   target: {fileID: 0}
   player: {fileID: 0}
   distanceTarget: 50
@@ -2423,6 +2464,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &840990780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2700548310824294637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b85141f54fbc14a989a57a3369e4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootParent: {fileID: 2700548310824294637}
+  disappearNow: 0
+  timeToDisappear: 15
+  timeToDestroy: 30
+  allColliders: []
+  allRigidbodys: []
 --- !u!1 &3774441974669995920
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,10 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class EnemyControllerTank : MonoBehaviour
 {
     [SerializeField]
+    [Header("Event with Start")]
+    public UnityEvent eventToStart;
+    [Header("Event with Activate")]
+    public UnityEvent eventToActivate;
+    [Header("Event with Dead")]
+    public UnityEvent eventToDeath;
     [Header("Objective")]
     [Tooltip("Automatic find Player")]
     public Transform target;
@@ -75,8 +82,8 @@ public class EnemyControllerTank : MonoBehaviour
         foreach (Rigidbody rb in rigParts) rb.isKinematic = true;//kinematicos los rb
         foreach (BoxCollider bc in colParts) bc.enabled = false;// desactivados los boxcolliders
         originPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        motorAudioSource.volume = 0.15f;
         motorAudioSource.pitch = 0.5f;
+        eventToStart.Invoke();
 
 
 
@@ -87,6 +94,7 @@ public class EnemyControllerTank : MonoBehaviour
     {
         if (isActive && isDead == false)//si se encuentra activada la unidad
         {
+            eventToActivate.Invoke();
             animRoads.SetBool("Active", true);
             FindTarget();//Busca al Objetivo
             if (canAttack) Attack();//Listo para atacar si puede
@@ -102,11 +110,14 @@ public class EnemyControllerTank : MonoBehaviour
 
         if (isDead == true)//si esta muerta
         {
+            eventToDeath.Invoke();
             disappear.disappearNow = true;//activar desaparecer
             isActive = false;//desactiva el robot
             shake.timeToShake = 1;// establece tiempo de vibracion de la camara
             shake.shake = true;// vibra la camara
             explosionVFX.SetActive(true);//activa particulas
+            exploteArea.exploteNow = true;//explota
+
             if (isDisappear == false)//comprueba si aun no desaparecieron los objetos
             {
                 foreach (GameObject go in invisibleParts) go.SetActive(true);//activa trozos invisibles
@@ -115,7 +126,7 @@ public class EnemyControllerTank : MonoBehaviour
                 isDisappear = true;//deja de comprobar
             }
 
-            exploteArea.exploteNow = true;//explota
+            
         }
 
     }

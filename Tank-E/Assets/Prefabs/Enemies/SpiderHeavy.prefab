@@ -1140,13 +1140,14 @@ GameObject:
   - component: {fileID: 3837432689310362790}
   - component: {fileID: 3837432689310362791}
   - component: {fileID: 3837432689310362784}
+  - component: {fileID: 1239591039}
   m_Layer: 0
   m_Name: SpiderHeavy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3837432689310362785
 Transform:
   m_ObjectHideFlags: 0
@@ -1199,6 +1200,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfc209c4e47aa2e44a90126320c4bbcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventToStart:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToActivate:
+    m_PersistentCalls:
+      m_Calls: []
+  eventToDeath:
+    m_PersistentCalls:
+      m_Calls: []
   target: {fileID: 0}
   player: {fileID: 0}
   distanceTarget: 70
@@ -1341,6 +1351,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1239591039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3837432689310362788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b85141f54fbc14a989a57a3369e4be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootParent: {fileID: 3837432689310362788}
+  disappearNow: 0
+  timeToDisappear: 15
+  timeToDestroy: 30
+  allColliders: []
+  allRigidbodys: []
 --- !u!1 &3837432689499699361
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,10 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class EnemyControllerSpider : MonoBehaviour
 {
     [SerializeField]
+    [Header("Event with Start")]
+    public UnityEvent eventToStart;
+    [Header("Event with Activate")]
+    public UnityEvent eventToActivate;
+    [Header("Event with Dead")]
+    public UnityEvent eventToDeath;
     [Header("Objective")]
     [Tooltip("Automatic find Player")]
     public Transform target;
@@ -48,6 +55,7 @@ public class EnemyControllerSpider : MonoBehaviour
 
     //Variables Privadas
     Disappear disappear;
+    bool isDisappear;
     NavMeshAgent navMesh;
     RaycastHit hit;
     float dist;
@@ -61,17 +69,18 @@ public class EnemyControllerSpider : MonoBehaviour
     void Start()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        disappear= GetComponent<Disappear>();
+        disappear = GetComponent<Disappear>();
         navMesh = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
         shake = FindObjectOfType<ShakeCamera>();
-        rigParts=GetComponentsInChildren<Rigidbody>();
-        colParts=GetComponentsInChildren<BoxCollider>();
+        rigParts = GetComponentsInChildren<Rigidbody>();
+        colParts = GetComponentsInChildren<BoxCollider>();
         foreach (GameObject go in invisibleParts) go.SetActive(false);//desactiva trozos invisibles
         foreach (Rigidbody rb in rigParts) rb.isKinematic = true;//kinematicos los rb
         foreach (BoxCollider bc in colParts) bc.enabled = false;// desactivados los boxcolliders
         lightStatus.color = Color.green;//color status
-        originPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);//orienta la torreta
+        originPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);//lugar de origen
+        eventToStart.Invoke();
 
 
 
@@ -85,6 +94,7 @@ public class EnemyControllerSpider : MonoBehaviour
             lightStatus.intensity = 3;
             FindTarget();//Busca al Objetivo
             if (canAttack) Attack();//Listo para atacar si puede
+            eventToActivate.Invoke();
         }
 
         if (isActive == false)// si no se encuentra activada
@@ -95,15 +105,21 @@ public class EnemyControllerSpider : MonoBehaviour
 
         if (isDead == true)//si esta muerta
         {
-            disappear.disappearNow=true;//activar desaparecer
+            eventToDeath.Invoke();
+            disappear.disappearNow = true;//activar desaparecer
             isActive = false;//desactiva el robot
-            shake.timeToShake=1;// establece tiempo de vibracion de la camara
-            shake.shake=true;// vibra la camara
+            shake.timeToShake = 1;// establece tiempo de vibracion de la camara
+            shake.shake = true;// vibra la camara
             explosionVFX.SetActive(true);//activa particulas
-            foreach (GameObject go in invisibleParts) go.SetActive(true);//activa trozos invisibles
-            foreach (Rigidbody rb in rigParts) rb.isKinematic = false;//dejan de ser kinematic las partes
-            foreach (BoxCollider bc in colParts) bc.enabled = true;//los colliders se activan
             exploteArea.exploteNow = true;//explota
+
+            if (isDisappear == false)//comprueba si aun no desaparecieron los objetos
+            {
+                foreach (GameObject go in invisibleParts) go.SetActive(true);//activa trozos invisibles
+                foreach (Rigidbody rb in rigParts) rb.isKinematic = false;//dejan de ser kinematic las partes
+                foreach (BoxCollider bc in colParts) bc.enabled = true;//los colliders se activan
+                isDisappear = true;//deja de comprobar
+            }
         }
 
     }
