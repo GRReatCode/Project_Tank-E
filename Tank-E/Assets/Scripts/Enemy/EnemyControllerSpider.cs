@@ -65,6 +65,8 @@ public class EnemyControllerSpider : MonoBehaviour
         navMesh = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
         shake = FindObjectOfType<ShakeCamera>();
+        rigParts=GetComponentsInChildren<Rigidbody>();
+        colParts=GetComponentsInChildren<BoxCollider>();
         foreach (GameObject go in invisibleParts) go.SetActive(false);//desactiva trozos invisibles
         foreach (Rigidbody rb in rigParts) rb.isKinematic = true;//kinematicos los rb
         foreach (BoxCollider bc in colParts) bc.enabled = false;// desactivados los boxcolliders
@@ -134,7 +136,6 @@ public class EnemyControllerSpider : MonoBehaviour
                 if (navMesh.velocity.magnitude <= 0) animLegs.SetFloat("Mov", 0);//vuelve a idle
             }
 
-
         }
     }
 
@@ -151,7 +152,7 @@ public class EnemyControllerSpider : MonoBehaviour
     {
         if (dist < distanceToAttack)//comprueba si tiene rango
         {
-            lightStatus.color = Color.red;
+            lightStatus.color = Color.red;//cambia luz de estado
             Shoot();//Dispara
         }
     }
