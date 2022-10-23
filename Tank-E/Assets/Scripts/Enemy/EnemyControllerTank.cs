@@ -127,7 +127,6 @@ public class EnemyControllerTank : MonoBehaviour
                 isDisappear = true;//deja de comprobar
             }
         }
-        //if( fireRate-=Time.deltaTime;
 
 
     }
@@ -138,7 +137,6 @@ public class EnemyControllerTank : MonoBehaviour
         dist = Vector3.Distance(transform.position, target.transform.position);//distancia de visión
         if (dist < distanceTarget)
         {
-            Debug.Log("See you");// :P
             MoveTowards();//Si encuenta el objetivo
             upperBody.transform.Rotate(new Vector3(0, 0, -90));//endereza el arma prefab en top
             if (isLockedSound == true)//preeve que se reproduzca en loop
@@ -185,62 +183,37 @@ public class EnemyControllerTank : MonoBehaviour
     {
         if (dist < distanceToAttack)//comprueba si tiene rango
         {
-            if (canShoot)//si puede disparar
-                {
-                    StartCoroutine("FireNow");//inica rutina de disparo
-                    //FireNow();
-                }
-
-            //Shoot();//Dispara
-        }
-    }
-
-
-    /*void Shoot()
-    {
-        if (Physics.Raycast(sight.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))//emite un rayo
-        {
-            Debug.DrawLine(sight.position, target.transform.position, Color.red);//crea un rayo Gizmo rojo
-
-            //player = hit.transform.GetComponent<PlayerMovement>();//determinamos la script que busca
-            //if (player != null)//si la script existe
-            //{
-            if (hit.transform.CompareTag("Player"))
+            /*if (Physics.Raycast(sight.position, transform.TransformDirection(Vector3.forward), out hit,))//emite un rayo
             {
-
-                if (canShoot)//si puede disparar
+                Debug.DrawLine(sight.position, transform.TransformDirection(Vector3.forward));
+                player = hit.transform.GetComponent<PlayerMovement>();//determinamos si el rayo colisiona con player
+                if (player==null)canShoot = false;
+                else
                 {
+                    canAttack=true;
                     StartCoroutine("FireNow");//inica rutina de disparo
-                    //FireNow();
-                }
+                } 
+            }*/
+            if (canShoot)//si puede disparar
+            {
+                StartCoroutine("FireNow");//inica rutina de disparo
             }
         }
-
-    }*/
-    /*void FireNow()
-    {
-        fireRate -= Time.deltaTime;
-
-    }*/
-
-    IEnumerator FireNow()
-    {
-        canShoot = false;//no puede seguir disparando
-        if (nonAnimatorWeapon == false) foreach (Animator shootAnim in animWeapons) { shootAnim.SetTrigger("Shoot"); }//da play a todos los animators de las armas
-        foreach (GameObject vfx in shootVFX) { vfx.SetActive(true); }//activa las particulas del disparo
-        audioSource.pitch = (Random.Range(0.8f, 1.2f));//el audio cambia levemente el tono
-        audioSource.PlayOneShot(shootSFX);//emite un sonido de disparo
-        Debug.Log("encorrutina");
-
-
-        yield return new WaitForSeconds(fireRate);//espera los segundos de la variable
-        Debug.Log("fuera de corrutina");
-
-
-        if (nonReload == false) audioSource.PlayOneShot(reloadSFX);//emite un sonido de recarga
-        canShoot = true;//ahora puede disparar
-        foreach (GameObject vfx in shootVFX) { vfx.SetActive(false); }//desactiva las particulas del disparo
-
     }
+    IEnumerator FireNow()
+        {
+            canShoot = false;//no puede seguir disparando
+            if (nonAnimatorWeapon == false) foreach (Animator shootAnim in animWeapons) { shootAnim.SetTrigger("Shoot"); }//da play a todos los animators de las armas
+            foreach (GameObject vfx in shootVFX) { vfx.SetActive(true); }//activa las particulas del disparo
+            audioSource.pitch = (Random.Range(0.8f, 1.2f));//el audio cambia levemente el tono
+            audioSource.PlayOneShot(shootSFX);//emite un sonido de disparo
 
+
+            yield return new WaitForSeconds(fireRate);//espera los segundos de la variable
+
+            if (nonReload == false) audioSource.PlayOneShot(reloadSFX);//emite un sonido de recarga
+            canShoot = true;//ahora puede disparar
+            foreach (GameObject vfx in shootVFX) { vfx.SetActive(false); }//desactiva las particulas del disparo
+
+        }
 }
