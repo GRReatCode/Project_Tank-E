@@ -62,7 +62,7 @@ public class LanzaLlamas : MonoBehaviour
         if (Enemy.TryGetComponent<IBurnable>(out IBurnable burnable))
         {
             burnable.StartBurning(BurningDPS);
-            //Enemy.vidaActual.OnDeath += HandleEnemyDeath;
+            //Enemy.health.OnDeath += HandleEnemyDeath;
             ParticleSystem onFireSystem = OnFirePool.Get();
             onFireSystem.transform.SetParent(Enemy.transform, false);
             onFireSystem.transform.localPosition = Vector3.zero;

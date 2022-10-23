@@ -7,7 +7,7 @@ public class Shoot : MonoBehaviour
     public float damage = 20f;
     public Transform Cannon;
     public float fireRate = 15f;
-    //public GameObject ShootEffect;
+    public GameObject ShootEffect;
     RaycastHit objectHit;
 
     private float nextShoot = 0f;
@@ -22,7 +22,7 @@ public class Shoot : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0) && Time.time >= nextShoot)
         {
-            nextShoot = Time.time + 1f / fireRate;
+            nextShoot = Time.time + 1f / fireRate; //Disparar en intervalos de tiempo
             ShootBullet();
         }
     }
@@ -33,13 +33,13 @@ public class Shoot : MonoBehaviour
         if (Physics.Raycast(Cannon.transform.position, Cannon.transform.forward, out hit)); //Emite el Raycast
         {
             Debug.DrawRay(Cannon.transform.position, Cannon.transform.forward * 100, Color.red);
-            //Instantiate(ShootEffect, Cannon.position, Cannon.rotation);
-            Debug.Log(hit.transform.name);
-            Target target = hit.transform.GetComponent<Target>();//Busca si el enemigo tiene el script de salud
+            Instantiate(ShootEffect, Cannon.position, Cannon.rotation);            
+            Target target = hit.transform.GetComponent<Target>();//Busca si el enemigo tiene el script target            
             if (target != null)
             {
-                target.TakeDamage(damage);
+                target.TakeDamage(damage); //Aplicar daño
             }
+            
         }
     }
 }
