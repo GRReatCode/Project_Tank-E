@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Target : MonoBehaviour, IDamageable, IBurnable
+public class Target : MonoBehaviour, IDamageable, IBurnable //en estos script se llama la corutina startburning y stopburning del lanzallamas
 {
     [SerializeField]
     private bool _IsBurning;
-    public bool IsBurning { get => _IsBurning; set => _IsBurning = value; }
+    public bool IsBurning { get => _IsBurning; set => _IsBurning = value; }//para el lanzallamas
     public float health = 100f;
     private Coroutine BurnCoroutine;
     private float _Health;
@@ -42,7 +42,7 @@ public class Target : MonoBehaviour, IDamageable, IBurnable
     }
     private IEnumerator Burn(int DamagePerSecond)
     {
-        float minTimeToDamage = 1f / DamagePerSecond;
+        float minTimeToDamage = 1f / DamagePerSecond;//aplica cantidad de daño por segundo
         WaitForSeconds wait = new WaitForSeconds(minTimeToDamage);
         int damagePerTick = Mathf.FloorToInt(minTimeToDamage) + 2;
 

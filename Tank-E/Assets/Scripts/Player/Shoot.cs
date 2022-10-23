@@ -30,14 +30,18 @@ public class Shoot : MonoBehaviour
     {
         //ShootEffect.Play();
         RaycastHit hit;
-        if (Physics.Raycast(Cannon.transform.position, Cannon.transform.forward, out hit)); //Emite el Raycast
+        if (Physics.Raycast(Cannon.transform.position, Cannon.transform.forward, out hit)) ; //Emite el Raycast
         {
             Debug.DrawRay(Cannon.transform.position, Cannon.transform.forward * 100, Color.red);
-            Instantiate(ShootEffect, Cannon.position, Cannon.rotation);            
-            Target target = hit.transform.GetComponent<Target>();//Busca si el enemigo tiene el script target            
-            if (target != null)
+            Instantiate(ShootEffect, Cannon.position, Cannon.rotation);
+            if (hit.collider == null)
             {
-                target.TakeDamage(damage); //Aplicar daño
+                return;
+            }
+            else if (hit.collider.CompareTag("Enemy"))
+            {
+                Target target = hit.transform.GetComponent<Target>();
+                target.TakeDamage(damage);  //Aplicar daño
             }
             
         }

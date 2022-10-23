@@ -30,7 +30,7 @@ public class Grenade : MonoBehaviour
     private void Explode()
     {
 
-        Instantiate(explosionEffect, transform.position, transform.rotation);
+        Instantiate(explosionEffect, transform.position, transform.rotation);//Instanciar el efecto de explosión
 
         Collider[] hitcolliders = Physics.OverlapSphere(transform.position, radio);
 
@@ -45,7 +45,7 @@ public class Grenade : MonoBehaviour
 
         }
 
-        Destroy(gameObject, 0.6f);
+        Destroy(gameObject, 0.6f);// delay para la destrucción para que instamcie la explosión antes de destruirse
         Debug.Log("BOOM");
     }
     private void OnDrawGizmos()
