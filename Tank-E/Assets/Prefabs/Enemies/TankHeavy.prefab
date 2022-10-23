@@ -287,7 +287,8 @@ AudioSource:
   m_GameObject: {fileID: 2671941723963434000}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 30921393753845b49aed146907ed506c,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.3
@@ -31251,7 +31252,8 @@ AudioSource:
   m_GameObject: {fileID: 4367784520683868600}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 30921393753845b49aed146907ed506c,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 404bc228962024044b2110a44cbdbdde, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.05
@@ -31360,13 +31362,13 @@ GameObject:
   - component: {fileID: 4367784521036037982}
   - component: {fileID: 4367784521036037979}
   - component: {fileID: 2671941722696421460}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TankHeavy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4367784521036037983
 Transform:
   m_ObjectHideFlags: 0

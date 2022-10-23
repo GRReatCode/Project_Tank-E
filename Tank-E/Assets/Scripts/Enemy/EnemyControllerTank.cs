@@ -92,6 +92,8 @@ public class EnemyControllerTank : MonoBehaviour
 
     void Update()
     {
+
+        //Debug.Log("Distance: "+dist);
         if (isActive && isDead == false)//si se encuentra activada la unidad
         {
             eventToActivate.Invoke();
@@ -99,7 +101,6 @@ public class EnemyControllerTank : MonoBehaviour
             FindTarget();//Busca al Objetivo
             if (canAttack) Attack();//Listo para atacar si puede
             motorAudioSource.enabled = true;//habilita el sonido
-
         }
 
         if (isActive == false)// si no se encuentra activada
@@ -125,9 +126,9 @@ public class EnemyControllerTank : MonoBehaviour
                 foreach (BoxCollider bc in colParts) bc.enabled = true;//los colliders se activan
                 isDisappear = true;//deja de comprobar
             }
-
-            
         }
+        //if( fireRate-=Time.deltaTime;
+
 
     }
 
@@ -184,28 +185,44 @@ public class EnemyControllerTank : MonoBehaviour
     {
         if (dist < distanceToAttack)//comprueba si tiene rango
         {
-            Shoot();//Dispara
+            if (canShoot)//si puede disparar
+                {
+                    StartCoroutine("FireNow");//inica rutina de disparo
+                    //FireNow();
+                }
+
+            //Shoot();//Dispara
         }
     }
 
 
-    void Shoot()
+    /*void Shoot()
     {
         if (Physics.Raycast(sight.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))//emite un rayo
         {
+            Debug.DrawLine(sight.position, target.transform.position, Color.red);//crea un rayo Gizmo rojo
 
-            player = hit.transform.GetComponent<PlayerMovement>();//determinamos la script que busca
-            if (player != null)//si la script existe
+            //player = hit.transform.GetComponent<PlayerMovement>();//determinamos la script que busca
+            //if (player != null)//si la script existe
+            //{
+            if (hit.transform.CompareTag("Player"))
             {
-                Debug.DrawLine(sight.position, target.transform.position, Color.red);//crea un rayo Gizmo rojo
+
                 if (canShoot)//si puede disparar
                 {
                     StartCoroutine("FireNow");//inica rutina de disparo
+                    //FireNow();
                 }
             }
         }
 
-    }
+    }*/
+    /*void FireNow()
+    {
+        fireRate -= Time.deltaTime;
+
+    }*/
+
     IEnumerator FireNow()
     {
         canShoot = false;//no puede seguir disparando
@@ -213,9 +230,11 @@ public class EnemyControllerTank : MonoBehaviour
         foreach (GameObject vfx in shootVFX) { vfx.SetActive(true); }//activa las particulas del disparo
         audioSource.pitch = (Random.Range(0.8f, 1.2f));//el audio cambia levemente el tono
         audioSource.PlayOneShot(shootSFX);//emite un sonido de disparo
+        Debug.Log("encorrutina");
 
 
         yield return new WaitForSeconds(fireRate);//espera los segundos de la variable
+        Debug.Log("fuera de corrutina");
 
 
         if (nonReload == false) audioSource.PlayOneShot(reloadSFX);//emite un sonido de recarga
