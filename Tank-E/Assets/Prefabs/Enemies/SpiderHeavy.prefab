@@ -1142,6 +1142,7 @@ GameObject:
   - component: {fileID: 3837432689310362791}
   - component: {fileID: 3837432689310362784}
   - component: {fileID: 1239591039}
+  - component: {fileID: 128681042}
   m_Layer: 7
   m_Name: SpiderHeavy
   m_TagString: Enemy
@@ -1211,7 +1212,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   target: {fileID: 0}
-  player: {fileID: 0}
   distanceTarget: 70
   distanceToAttack: 30
   isAPatrol: 0
@@ -1232,6 +1232,7 @@ MonoBehaviour:
   lightStatus: {fileID: 3837432689499699363}
   isDead: 0
   exploteArea: {fileID: 28017302}
+  health: 5
   explosionVFX: {fileID: 3837831062660555833}
   rigParts: []
   colParts: []
@@ -1370,6 +1371,20 @@ MonoBehaviour:
   timeToDestroy: 30
   allColliders: []
   allRigidbodys: []
+--- !u!136 &128681042
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3837432689310362788}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.664856
+  m_Height: 4.4787064
+  m_Direction: 1
+  m_Center: {x: 0.07448745, y: 1.7393532, z: -0.564178}
 --- !u!1 &3837432689499699361
 GameObject:
   m_ObjectHideFlags: 0

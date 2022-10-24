@@ -895,6 +895,7 @@ GameObject:
   - component: {fileID: 1840239649919974245}
   - component: {fileID: 1840239649919974240}
   - component: {fileID: 1828803695}
+  - component: {fileID: 1004788794}
   m_Layer: 7
   m_Name: TankLite
   m_TagString: Enemy
@@ -983,6 +984,7 @@ MonoBehaviour:
   upperBody: {fileID: 6290448590593378111}
   sight: {fileID: 1840239650852343517}
   isDead: 0
+  health: 7
   exploteArea: {fileID: 297689134}
   explosionVFX: {fileID: 1840322437103206790}
   rigParts: []
@@ -1119,6 +1121,20 @@ MonoBehaviour:
   timeToDestroy: 30
   allColliders: []
   allRigidbodys: []
+--- !u!136 &1004788794
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1840239649919974243}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.8309861
+  m_Height: 3.6619723
+  m_Direction: 1
+  m_Center: {x: -0.01728498, y: 1.2769388, z: -0.36299524}
 --- !u!1 &1840239650238829955
 GameObject:
   m_ObjectHideFlags: 0

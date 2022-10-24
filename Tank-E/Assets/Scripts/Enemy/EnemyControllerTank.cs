@@ -41,11 +41,13 @@ public class EnemyControllerTank : MonoBehaviour
 
 
     [Header("Turret")]
+
     public GameObject upperBody;
     public Transform sight;
 
     [Header("Status")]
     public bool isDead;
+    public float health = 10;
     public ExploteArea exploteArea;
 
     [Header("Visual FX")]
@@ -64,6 +66,7 @@ public class EnemyControllerTank : MonoBehaviour
     float dist;
     bool canAttack = true;
     bool canShoot = true;
+    bool canShake=true;
     bool isLockedSound;
     Vector3 originPosition;
 
@@ -93,7 +96,7 @@ public class EnemyControllerTank : MonoBehaviour
     void Update()
     {
 
-        //Debug.Log("Distance: "+dist);
+        if (health <= 0) isDead = true;
         if (isActive && isDead == false)//si se encuentra activada la unidad
         {
             eventToActivate.Invoke();
@@ -109,13 +112,17 @@ public class EnemyControllerTank : MonoBehaviour
             motorAudioSource.enabled = false;
         }
 
-        if (isDead == true)//si esta muerta
+        if (isDead)//si esta muerta
         {
             eventToDeath.Invoke();
             disappear.disappearNow = true;//activar desaparecer
             isActive = false;//desactiva el robot
-            shake.timeToShake = 1;// establece tiempo de vibracion de la camara
-            shake.shake = true;// vibra la camara
+            if (canShake)
+            {
+                shake.timeToShake = 1;// establece tiempo de vibracion de la camara
+                shake.shake = true;// vibra la camara
+                canShake = false;
+            }
             explosionVFX.SetActive(true);//activa particulas
             exploteArea.exploteNow = true;//explota
 
@@ -216,4 +223,11 @@ public class EnemyControllerTank : MonoBehaviour
             foreach (GameObject vfx in shootVFX) { vfx.SetActive(false); }//desactiva las particulas del disparo
 
         }
+        void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("BulletPlayer"))
+        {
+            health--;
+        }
+    }
 }

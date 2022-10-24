@@ -2327,12 +2327,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   target: {fileID: 0}
-  player: {fileID: 0}
   distanceTarget: 50
   distanceToAttack: 20
   isAPatrol: 0
   isActive: 1
-  fireRate: 0.1
+  fireRate: 0.4
   nonReload: 1
   animLegs: {fileID: 2649040691722827676}
   nonAnimatorWeapon: 0
@@ -2347,6 +2346,7 @@ MonoBehaviour:
   lightStatus: {fileID: 2700548309610262428}
   isDead: 0
   exploteArea: {fileID: 286410934}
+  health: 3
   explosionVFX: {fileID: 2700398182193994797}
   rigParts: []
   colParts: []

@@ -16,7 +16,7 @@ public class EnemyControllerSpider : MonoBehaviour
     [Header("Objective")]
     [Tooltip("Automatic find Player")]
     public Transform target;
-    public PlayerMovement player;
+    //public PlayerMove player;
     public float distanceTarget;
     public float distanceToAttack;
     [Header("Conduct")]
@@ -44,6 +44,7 @@ public class EnemyControllerSpider : MonoBehaviour
     public Light lightStatus;
     public bool isDead;
     public ExploteArea exploteArea;
+    public float health = 100;
     [Header("Visual FX")]
     public GameObject explosionVFX;
     public Rigidbody[] rigParts;
@@ -61,6 +62,7 @@ public class EnemyControllerSpider : MonoBehaviour
     float dist;
     bool canAttack = true;
     bool canShoot = true;
+    bool canShake = true;
     bool isLockedSound;
     Vector3 originPosition;
 
@@ -88,6 +90,7 @@ public class EnemyControllerSpider : MonoBehaviour
 
     void Update()
     {
+        if (health <= 0) isDead = true;
         if (isActive && isDead == false)//si se encuentra activada la unidad
         {
             animLegs.SetBool("Active", true);
@@ -108,10 +111,17 @@ public class EnemyControllerSpider : MonoBehaviour
             eventToDeath.Invoke();
             disappear.disappearNow = true;//activar desaparecer
             isActive = false;//desactiva el robot
-            shake.timeToShake = 1;// establece tiempo de vibracion de la camara
-            shake.shake = true;// vibra la camara
+            if (canShake)
+            {
+                shake.timeToShake = 1;// establece tiempo de vibracion de la camara
+                shake.shake = true;// vibra la camara
+                canShake = false;
+            }
+
+
             explosionVFX.SetActive(true);//activa particulas
             exploteArea.exploteNow = true;//explota
+
 
             if (isDisappear == false)//comprueba si aun no desaparecieron los objetos
             {
@@ -120,9 +130,11 @@ public class EnemyControllerSpider : MonoBehaviour
                 foreach (BoxCollider bc in colParts) bc.enabled = true;//los colliders se activan
                 isDisappear = true;//deja de comprobar
             }
+
         }
 
     }
+
 
 
     void FindTarget()
@@ -156,14 +168,12 @@ public class EnemyControllerSpider : MonoBehaviour
         }
     }
 
-
     void MoveTowards()
     {
         if (isActive == true) upperBody.transform.LookAt(target);//rota la cabeza hacia el target si esta activada la unidad
         navMesh.SetDestination(target.transform.position);//se mueve al objetivo
         animLegs.SetFloat("Mov", navMesh.velocity.magnitude);//animacion de idle a walk
     }
-
 
     void Attack()
     {
@@ -203,6 +213,13 @@ public class EnemyControllerSpider : MonoBehaviour
         canShoot = true;//ahora puede disparar
         foreach (GameObject vfx in shootVFX) { vfx.SetActive(false); }//desactiva las particulas del disparo
 
+    }
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("BulletPlayer"))
+        {
+            health--;
+        }
     }
 
 }

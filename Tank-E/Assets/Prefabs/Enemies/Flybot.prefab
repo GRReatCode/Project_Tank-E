@@ -6096,6 +6096,7 @@ GameObject:
   - component: {fileID: 6673650699741587240}
   - component: {fileID: 6673650699741587241}
   - component: {fileID: 6673650699741587238}
+  - component: {fileID: 125716352}
   m_Layer: 7
   m_Name: Flybot
   m_TagString: Enemy
@@ -6182,6 +6183,7 @@ MonoBehaviour:
   upperBody: {fileID: 3576597075948246082}
   sight: {fileID: 3576597076813960251}
   isDead: 0
+  health: 3
   exploteArea: {fileID: 3576597075938437889}
   explosionVFX: {fileID: 3576240324238675671}
   rigParts: []
@@ -6318,6 +6320,20 @@ MonoBehaviour:
   timeToDestroy: 10
   allColliders: []
   allRigidbodys: []
+--- !u!136 &125716352
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6673650699741587239}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.9906082
+  m_Height: 5.454796
+  m_Direction: 1
+  m_Center: {x: -0.029953003, y: -2.227398, z: -0.033706665}
 --- !u!1 &6673650699741587245
 GameObject:
   m_ObjectHideFlags: 0

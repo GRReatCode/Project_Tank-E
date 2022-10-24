@@ -31,6 +31,7 @@ public class ShakeCamera : MonoBehaviour
         noise.m_AmplitudeGain = amplitudeGain;
         noise.m_FrequencyGain = frequencyGain;
         yield return new WaitForSeconds (timeToShake);
+        shake=false;
         noise.m_AmplitudeGain = 0;
         noise.m_FrequencyGain = 0;
     }
