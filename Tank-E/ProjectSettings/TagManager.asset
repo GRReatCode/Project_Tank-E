@@ -8,6 +8,10 @@ TagManager:
   - Impact
   - Enemy
   - BulletPlayer
+  - HealthBuff
+  - DoubleMachinegunBuff
+  - MultiplegunBuff
+  - SpeedBuff
   layers:
   - Default
   - TransparentFX

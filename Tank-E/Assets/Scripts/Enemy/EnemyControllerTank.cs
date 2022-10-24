@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class EnemyControllerTank : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class EnemyControllerTank : MonoBehaviour
     public bool isDead;
     public float health = 10;
     public ExploteArea exploteArea;
+    public int scoreWithDeath;
 
     [Header("Visual FX")]
     public GameObject explosionVFX;
@@ -57,9 +59,13 @@ public class EnemyControllerTank : MonoBehaviour
     public GameObject[] invisibleParts;
     public GameObject[] shootVFX;
     public ShakeCamera shake;
+    public Image fillAmountLife;
+
 
     //Variables Privadas
     Disappear disappear;
+    ScoreManager scoreManager;
+    bool addscore;
     bool isDisappear;
     NavMeshAgent navMesh;
     RaycastHit hit;
@@ -78,6 +84,7 @@ public class EnemyControllerTank : MonoBehaviour
         disappear = GetComponent<Disappear>();
         navMesh = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
+        scoreManager=FindObjectOfType<ScoreManager>();
         shake = FindObjectOfType<ShakeCamera>();
         rigParts = GetComponentsInChildren<Rigidbody>();
         colParts = GetComponentsInChildren<BoxCollider>();
@@ -96,7 +103,20 @@ public class EnemyControllerTank : MonoBehaviour
     void Update()
     {
 
-        if (health <= 0) isDead = true;
+        if (health <= 0)
+        {
+            isDead = true;
+            gameObject.tag="Untagged";
+            fillAmountLife.enabled = false;
+            if(addscore==false)
+            {
+                scoreManager.totalScore+=scoreWithDeath;
+                addscore=true;
+
+            } 
+
+        }
+        
         if (isActive && isDead == false)//si se encuentra activada la unidad
         {
             eventToActivate.Invoke();
@@ -104,6 +124,7 @@ public class EnemyControllerTank : MonoBehaviour
             FindTarget();//Busca al Objetivo
             if (canAttack) Attack();//Listo para atacar si puede
             motorAudioSource.enabled = true;//habilita el sonido
+            LifeBar();
         }
 
         if (isActive == false)// si no se encuentra activada
@@ -229,5 +250,11 @@ public class EnemyControllerTank : MonoBehaviour
         {
             health--;
         }
+    }
+    void LifeBar()
+    {
+        fillAmountLife.fillAmount=health/10;
+
+
     }
 }

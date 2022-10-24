@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class EnemyControllerSpider : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class EnemyControllerSpider : MonoBehaviour
     public Light lightStatus;
     public bool isDead;
     public ExploteArea exploteArea;
+    public int scoreWithDeath;
     public float health = 100;
     [Header("Visual FX")]
     public GameObject explosionVFX;
@@ -52,11 +54,13 @@ public class EnemyControllerSpider : MonoBehaviour
     public GameObject[] invisibleParts;
     public GameObject[] shootVFX;
     public ShakeCamera shake;
-
+    public Image fillAmountLife;
 
     //Variables Privadas
     Disappear disappear;
     bool isDisappear;
+    ScoreManager scoreManager;
+    bool addscore;
     NavMeshAgent navMesh;
     RaycastHit hit;
     float dist;
@@ -74,6 +78,7 @@ public class EnemyControllerSpider : MonoBehaviour
         disappear = GetComponent<Disappear>();
         navMesh = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
+        scoreManager = FindObjectOfType<ScoreManager>();
         shake = FindObjectOfType<ShakeCamera>();
         rigParts = GetComponentsInChildren<Rigidbody>();
         colParts = GetComponentsInChildren<BoxCollider>();
@@ -90,9 +95,22 @@ public class EnemyControllerSpider : MonoBehaviour
 
     void Update()
     {
-        if (health <= 0) isDead = true;
+        if (health <= 0)
+        {
+            isDead = true;
+            gameObject.tag = "Untagged";
+            fillAmountLife.enabled = false;
+            if (addscore == false)
+            {
+                scoreManager.totalScore += scoreWithDeath;
+                addscore = true;
+
+            }
+
+        }
         if (isActive && isDead == false)//si se encuentra activada la unidad
         {
+            LifeBar();
             animLegs.SetBool("Active", true);
             lightStatus.intensity = 3;
             FindTarget();//Busca al Objetivo
@@ -220,6 +238,12 @@ public class EnemyControllerSpider : MonoBehaviour
         {
             health--;
         }
+    }
+    void LifeBar()
+    {
+        fillAmountLife.fillAmount = health / 10;
+
+
     }
 
 }

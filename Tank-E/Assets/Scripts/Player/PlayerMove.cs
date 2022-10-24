@@ -1,29 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float hMove, vMove;
+    float hMove, vMove;
     Animator anim;
+    public Collider mainCollider;
     public AudioSource audioSource;
     public AudioClip motor;
     Rigidbody rb;
-    [SerializeField] float velocidad;
-    [SerializeField] float velocidadGiro;
+     public Rigidbody[] rigParts;
+    public BoxCollider[] colParts;
+    public GameObject[] invisibleParts;
+    public GameObject explosionVFX;
+
+    public float health;
+    public float maxHealth=100;
+    public TextMeshProUGUI healthTXT;
+    public float velocidad;
+    public float velocidadGiro;
 
     // Start is called before the first frame update
     void Start()
     {
         anim=GetComponent<Animator>();
         rb=GetComponent<Rigidbody>();
+        rigParts = GetComponentsInChildren<Rigidbody>();
+        colParts = GetComponentsInChildren<BoxCollider>();
+        foreach (GameObject go in invisibleParts) go.SetActive(false);//desactiva trozos invisibles
+        foreach (Rigidbody rb in rigParts) rb.isKinematic = true;//kinematicos los rb
+        foreach (BoxCollider bc in colParts) bc.enabled = false;// desactivados los boxcolliders
+        mainCollider.enabled=true;
+        health=maxHealth;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        healthTXT.SetText("Health: "+Mathf.Round(health));
+
         Movimiento();
+        if(health<=0)Death();
+        if(health>100)health=100;
     }
 
     void Movimiento()
@@ -44,5 +65,17 @@ public class PlayerMove : MonoBehaviour
 
         transform.Rotate(0, hMove, 0);
         transform.Translate(0, 0, vMove);
+    }
+    void Death()
+    {
+        explosionVFX.SetActive(true);
+        foreach (GameObject go in invisibleParts) go.SetActive(true);//activa trozos invisibles
+        foreach (Rigidbody rb in rigParts) rb.isKinematic = false;//dejan de ser kinematic las partes
+        foreach (BoxCollider bc in colParts) bc.enabled = true;//los colliders se activan
+    }
+    
+    void OnCollisionEnter(Collision other)
+    {
+        if(other.gameObject.CompareTag("Impact"))health--;
     }
 }
