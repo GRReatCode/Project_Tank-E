@@ -6,11 +6,11 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     public int totalScore;
-    
+
     public TextMeshProUGUI scoreTXT;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -23,4 +23,5 @@ public class ScoreManager : MonoBehaviour
         totalScore+=addScore;
 
     }
+
 }

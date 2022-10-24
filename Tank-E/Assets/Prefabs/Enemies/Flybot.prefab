@@ -6163,19 +6163,7 @@ MonoBehaviour:
       m_Calls: []
   eventToDeath:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
-        m_MethodName: AddScore
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 12
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   target: {fileID: 0}
   player: {fileID: 0}
   distanceTarget: 100
@@ -6198,6 +6186,7 @@ MonoBehaviour:
   isDead: 0
   health: 3
   exploteArea: {fileID: 3576597075938437889}
+  scoreWithDeath: 11
   explosionVFX: {fileID: 3576240324238675671}
   rigParts: []
   colParts: []

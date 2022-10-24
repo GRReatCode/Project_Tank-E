@@ -902,7 +902,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1840239649919974244
 Transform:
   m_ObjectHideFlags: 0
@@ -965,19 +965,7 @@ MonoBehaviour:
       m_Calls: []
   eventToDeath:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
-        m_MethodName: AddScore
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 21
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   target: {fileID: 0}
   player: {fileID: 0}
   distanceTarget: 80
@@ -999,6 +987,7 @@ MonoBehaviour:
   isDead: 0
   health: 7
   exploteArea: {fileID: 297689134}
+  scoreWithDeath: 21
   explosionVFX: {fileID: 1840322437103206790}
   rigParts: []
   colParts: []
